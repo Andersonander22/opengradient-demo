@@ -1,2 +1,16 @@
-# opengradient-demo
-A demo project showcasing distributed GPU + TEE execution with FastAPI backend and Streamlit frontend. The backend simulates job execution and verification, while the frontend provides a user-friendly interface to submit jobs and view results.
+# OpenGradient Demo 🚀
+
+This project demonstrates a simulated distributed GPU + Trusted Execution Environment (TEE) execution system.  
+It consists of:
+- **FastAPI backend (`main.py`)** — handles job execution and verification.
+- **Streamlit frontend (`app.py`)** — provides a user-friendly interface to submit jobs and view results.
+
+---
+
+## 🔧 Local Setup
+
+1. Clone the repo:
+   ```bash
+   git clone https://github.com/your-username/opengradient-demo.git
+   cd opengradient-demo
+
