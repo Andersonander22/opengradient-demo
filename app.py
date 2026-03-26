@@ -1,34 +1,23 @@
 import streamlit as st
-import requests
-
-# Backend URL (local FastAPI)
-BACKEND_URL = "http://127.0.0.1:8000/submit-job"
-
-st.set_page_config(page_title="OpenGradient Demo", page_icon="🚀", layout="centered")
+from main import distributed_compute, tee_node
 
 st.title("OpenGradient Demo 🚀")
-st.write("This app connects to the FastAPI backend for distributed GPU + TEE execution.")
+st.write("Simulated distributed GPU + TEE execution")
 
 # Input box
-user_input: str = st.text_input("Enter a job input:", "")
+user_input = st.text_input("Enter a job input:")
 
-# Submit button
+# Button to submit
 if st.button("Submit Job"):
     if user_input.strip() == "":
-        st.warning("⚠️ Please enter some input first.")
+        st.warning("Please enter a job input.")
     else:
-        try:
-            response = requests.post(
-                BACKEND_URL,
-                json={"input": user_input},
-                headers={"accept": "application/json"}
-            )
-            if response.status_code == 200:
-                data = response.json()
-                st.success("✅ Job executed successfully!")
-                st.markdown(f"**Node Selected:** :blue[{data['result'].split('on ')[-1]}]")
-                st.json(data)
-            else:
-                st.error(f"❌ Backend error: {response.status_code}")
-        except Exception as e:
-            st.error(f"⚠️ Could not connect to backend: {e}")
+        # Run backend logic directly
+        gpu_result = distributed_compute(user_input)
+        verification = tee_node(gpu_result)
+
+        # Show results
+        st.success(f"Input: {user_input}")
+        st.info(f"Result: {gpu_result}")
+        st.write(f"Verified: {verification['verified']}")
+        st.code(f"Verification Hash: {verification['verification_hash']}")
